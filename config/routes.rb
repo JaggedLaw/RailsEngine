@@ -10,10 +10,17 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :customers, only: [:index, :show]
+      resources :customers, only: [:index, :show] do
+        member do
+          get :invoices, to: "customers/invoices#index"
+          get :transactions, to: "customers/transactions#index"
+        end
+      end
+
       resources :invoice_items, only: [:index, :show] do
         member do
           get :invoice, to: "invoice_items/invoices#show"
+          get :item, to: "invoice_items/items#show"
         end
       end
 
@@ -28,7 +35,12 @@ Rails.application.routes.draw do
       end
 
       resources :items, only: [:index, :show]
-      resources :transactions, only: [:index, :show]
+
+      resources :transactions, only: [:index, :show] do
+        member do
+          get :invoice, to: "transactions/invoices#show"
+        end
+      end
 
     end
   end
