@@ -8,6 +8,6 @@ class Api::V1::Invoices::ItemsController < ApplicationController
     invoice_items.each do |invoice_item|
       @items << Item.where(id: invoice_item.item_id)
     end
-    respond_with @items
+    respond_with @items.flatten
   end
 end

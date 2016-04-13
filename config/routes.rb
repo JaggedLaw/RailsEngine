@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
       resources :merchants, only: [:index, :show] do
         member do
+          get :revenue, to: "merchants/revenue#show"
           get :items, to: "merchants/items#index"
           get :invoices, to: "merchants/invoices#index"
         end
@@ -51,6 +52,10 @@ Rails.application.routes.draw do
       end
 
       resources :items, only: [:index, :show] do
+        member do
+          get :invoice_items, to: "items/invoice_items#index"
+          get :merchant, to: "items/merchants#show"
+        end
         collection do
           get :find, to: "items/search#show"
           get :find_all, to: "items/search#index"
