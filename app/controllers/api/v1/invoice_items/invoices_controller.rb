@@ -4,7 +4,7 @@ class Api::V1::InvoiceItems::InvoicesController < ApplicationController
 
   def show
     invoice_item = InvoiceItem.where(id: params[:id])
-    invoice = Invoice.where(id: invoice_item.first.invoice_id)
+    invoice = Invoice.where(id: invoice_item.first.invoice_id).take
     respond_with invoice
   end
 end

@@ -6,6 +6,15 @@ namespace :import do
     task import_csv: :environment do
 
       counter = 0
+      filename = "lib/assets/transactions.csv"
+      CSV.foreach(filename, :headers => true) do |row|
+        row.delete("credit_card_expiration_date")
+        Transaction.create!(row.to_h)
+        counter += 1
+      end
+      puts "Imported #{counter} transactions"
+
+      counter = 0
       filename = "lib/assets/merchants.csv"
       CSV.foreach(filename, :headers => true) do |row|
         id, name, created_at, updated_at = row
@@ -29,6 +38,9 @@ namespace :import do
       CSV.foreach(filename, :headers => true) do |row|
         id, item_id, invoice_id, quantity, unit_price, created_at, updated_at = row
         InvoiceItem.create!(row.to_h)
+        integer_price = InvoiceItem.last.unit_price
+        float_price = integer_price/100
+        InvoiceItem.last.update(unit_price: float_price)
         counter += 1
       end
       puts "Imported #{counter} invoice items"
@@ -47,18 +59,12 @@ namespace :import do
       CSV.foreach(filename, :headers => true) do |row|
         id, name, description, unit_price, merchant_id, created_at, updated_at = row
         Item.create!(row.to_h)
+        integer_price = Item.last.unit_price
+        float_price = integer_price/100
+        Item.last.update(unit_price: float_price)
         counter += 1
       end
       puts "Imported #{counter} items"
-
-      counter = 0
-      filename = "lib/assets/transactions.csv"
-      CSV.foreach(filename, :headers => true) do |row|
-        id, invoice_id, credit_card_number, credit_card_expiration_date, result, created_at, updated_at = row
-        Transaction.create!(row.to_h)
-        counter += 1
-      end
-      puts "Imported #{counter} transactions"
 
   end
 
