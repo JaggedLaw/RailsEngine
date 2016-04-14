@@ -25,5 +25,17 @@ class Merchant < ActiveRecord::Base
     { revenue: (total.round(2)).to_s }
   end
 
+  def self.favorite_customer(params)
+    filtered_inv_items = InvoiceItem.joins(invoice: :transactions)
+                                 .where(transactions: {result: 'success'})
+                                 .where(invoices: {merchant_id: params[:id]})
+    merchant_customers = Customer.joins(:invoices)
+                        .where(invoices: {merchant_id: params[:id]})
+                        .joins(:transactions)
+                        .where(transactions: {result: 'success'})
+                        .group(:id).order(count: :desc)
+    merchant_customers.first
+  end
+
 
 end

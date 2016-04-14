@@ -41,6 +41,7 @@ namespace :import do
         integer_price = InvoiceItem.last.unit_price
         float_price = integer_price/100
         InvoiceItem.last.update(unit_price: float_price)
+        InvoiceItem.last.update(updated_at: row['updated_at'])
         counter += 1
       end
       puts "Imported #{counter} invoice items"
@@ -62,6 +63,7 @@ namespace :import do
         integer_price = Item.last.unit_price
         float_price = integer_price/100
         Item.last.update(unit_price: float_price)
+        Item.last.update(updated_at: row['updated_at'])
         counter += 1
       end
       puts "Imported #{counter} items"
