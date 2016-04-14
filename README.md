@@ -16,19 +16,21 @@ then start your local server using `'rails s'
 
 ## In your browser you can check the various endpoints:
 there are index and show views for:
-`customers
-`invoices
-`invoice_items
-`items
-`merchants
-`transactions
+*customers
+*invoices
+*invoice_items
+*items
+*merchants
+*transactions
 
 ## In the example of merchants, these endpoints are reached by:
 `/api/v1/merchants/
+
 `/api/v1/merchants/12      (or any number less than 100)
 
 Finders:
 `/api/v1/merchants/find?id=12
+
 `/api/v1/merchants/find_all?name=some-name
 
 Relationships:
