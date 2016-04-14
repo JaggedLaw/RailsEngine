@@ -6,9 +6,8 @@ class Merchant < ActiveRecord::Base
     filtered_inv_items = InvoiceItem.joins(invoice: :transactions)
                                  .where(transactions: {result: 'success'})
                                  .where(invoices: {merchant_id: params[:id]})
-                                 .pluck(:quantity, :unit_price)
     total = filtered_inv_items.reduce(0) do |total_sale, invoiced_item|
-      total_sale += (invoiced_item[0] * invoiced_item[1])
+      total_sale += (invoiced_item[:quantity] * invoiced_item[:unit_price])
     end
     { revenue: (total.round(2)).to_s }
   end
@@ -18,9 +17,8 @@ class Merchant < ActiveRecord::Base
                                  .where(transactions: {result: 'success'})
                                  .where(invoices: {merchant_id: params[:id]})
                                  .where(invoices: {created_at: params[:date]})
-                                 .pluck(:quantity, :unit_price)
     total = filtered_inv_items.reduce(0) do |total_sale, invoiced_item|
-     total_sale += (invoiced_item[0] * invoiced_item[1])
+     total_sale += (invoiced_item[:quantity] * invoiced_item[:unit_price])
     end
     { revenue: (total.round(2)).to_s }
   end
@@ -37,5 +35,14 @@ class Merchant < ActiveRecord::Base
     merchant_customers.first
   end
 
+  def self.all_revenue_by_date(params)
+    filtered_inv_items = InvoiceItem.joins(invoice: :transactions)
+                                 .where(transactions: {result: 'success'})
+                                 .where(invoices: {created_at: params[:date]})
+    total = filtered_inv_items.reduce(0) do |total_sale, invoiced_item|
+     total_sale += (invoiced_item[:quantity] * invoiced_item[:unit_price])
+    end
+    { total_revenue: (total.round(2)).to_s }
+  end
 
 end

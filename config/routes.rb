@@ -5,12 +5,14 @@ Rails.application.routes.draw do
 
       resources :merchants, only: [:index, :show] do
         member do
+          get :customers_with_pending_invoices, to: "merchants/pending#index"
           get :favorite_customer, to: "merchants/favorites#show"
           get :revenue, to: "merchants/revenue#show"
           get :items, to: "merchants/items#index"
           get :invoices, to: "merchants/invoices#index"
         end
         collection do
+          get :revenue, to: 'merchants/revenue_all#show'
           get :find, to: 'merchants/search#show'
           get :find_all, to: 'merchants/search#index'
         end
