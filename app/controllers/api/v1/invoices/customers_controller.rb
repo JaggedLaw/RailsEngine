@@ -1,6 +1,6 @@
 class Api::V1::Invoices::CustomersController < ApplicationController
 
-  respond_to :json, :xml, :html
+  respond_to :json
 
   def index
   end

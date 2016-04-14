@@ -1,6 +1,6 @@
 class Api::V1::Items::InvoiceItemsController < ApplicationController
 
-  respond_to :json, :xml, :html
+  respond_to :json
 
   def index
     invoice_items = InvoiceItem.where(item_id: params[:id]).flatten

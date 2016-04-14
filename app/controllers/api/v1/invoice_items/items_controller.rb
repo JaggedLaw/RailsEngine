@@ -1,6 +1,6 @@
 class Api::V1::InvoiceItems::ItemsController < ApplicationController
 
-  respond_to :json, :html, :xml
+  respond_to :json
 
   def show
     invoice_item = InvoiceItem.where(id: params[:id])

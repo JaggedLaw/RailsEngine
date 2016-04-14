@@ -1,6 +1,6 @@
 class Api::V1::Invoices::TransactionsController < ApplicationController
 
-  respond_to :html, :json, :xml
+  respond_to :json
 
   def index
     respond_with Transaction.where(invoice_id: params[:id])
