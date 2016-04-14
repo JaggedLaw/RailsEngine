@@ -3,12 +3,14 @@ class Merchant < ActiveRecord::Base
   has_many :invoices
 
   def self.merchant_revenue(params)
-    binding.pry
-    cost_collection = InvoiceItem.joins(invoice: :transactions)
+    filtered_inv_items = InvoiceItem.joins(invoice: :transactions)
                                  .where(transactions: {result: 'success'})
-                                 .where(invoices: {merchant_id: params[:merchant_id]})
+                                 .where(invoices: {merchant_id: params[:id]})
                                  .pluck(:quantity, :unit_price)
-    {revenue: ((cost_collection.map {|q, n| q * n}).reduce(:+))}
+    total = filtered_inv_items.reduce(0) do |total_sale, invoiced_item|
+      total_sale += (invoiced_item[0] * invoiced_item[1])
+    end
+    { revenue: (total.round(2))}
   end
 
 
