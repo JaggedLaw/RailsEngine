@@ -3,9 +3,13 @@
 API's open up a whole new world for applications. It is even more exciting when you build an API! In this project I have imported CSV's of existing data regarding invoicing for various merchants and customers. That's not exciting. What's exciting is what you can learn from the data once you map it! I set up the endpoints to query specific information so that you can see not only all the transactions, merchants, and items, but there are also business intelligence endpoints to show a single merchants revenue, favorite customer, top grossing merchants etc. Here is the setup:
 
 $ git clone https://github.com/JaggedLaw/RailsEngine.git
+
 $ cd RailsEngine
+
 $ bundle
+
 $ rake db:{drop,create,migrate}
+
 $ rake import:import_csv
 
 then start your local server using `'rails s'
